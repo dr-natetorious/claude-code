@@ -1,0 +1,25 @@
+[build]
+target = "bun"
+outdir = "dist"
+root = "src"
+splitting = false
+external = [
+  "@ant/claude-for-chrome-mcp",
+  "@anthropic-ai/mcpb",
+  "modifiers-napi",
+  "./components/agents/SnapshotUpdateDialog",
+  "./assistant/AssistantSessionChooser",
+  "./commands/assistant/assistant",
+  "./tools/TungstenTool/TungstenTool",
+  "./tools/TungstenTool/TungstenLiveMonitor",
+  "./tools/REPLTool/REPLTool",
+  "./tools/SuggestBackgroundPRTool/SuggestBackgroundPRTool",
+  "./tools/VerifyPlanExecutionTool/VerifyPlanExecutionTool",
+  "./commands/agents-platform/index",
+  "./coordinator/coordinatorMode",
+  "./cachedMicrocompact"
+]
+
+[root]
+# Use src as base for absolute imports
+baseurl = "src"

@@ -8,6 +8,7 @@
 
 import { extname } from 'path'
 import memoize from 'lodash-es/memoize.js'
+import { MACRO } from '../../constants/buildMacro.js'
 import { env, getHostPlatformForAnalytics } from '../../utils/env.js'
 import { envDynamic } from '../../utils/envDynamic.js'
 import { getModelBetas } from '../../utils/betas.js'

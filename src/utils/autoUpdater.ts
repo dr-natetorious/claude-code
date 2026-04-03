@@ -19,12 +19,12 @@ import { gracefulShutdownSync } from './gracefulShutdown.js'
 import { logError } from './log.js'
 import { gte, lt } from './semver.js'
 import { getInitialSettings } from './settings/settings.js'
-import {
-  filterClaudeAliases,
+import { filterClaudeAliases,
   getShellConfigPaths,
   readFileLines,
   writeFileLines,
 } from './shellConfig.js'
+import { MACRO } from '../constants/buildMacro.js'
 import { jsonParse } from './slowOperations.js'
 
 const GCS_BUCKET_URL =

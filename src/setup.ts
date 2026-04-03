@@ -295,7 +295,7 @@ export async function setup(
     if (feature('CONTEXT_COLLAPSE')) {
       /* eslint-disable @typescript-eslint/no-require-imports */
       ;(
-        require('./services/contextCollapse/index.js') as typeof import('./services/contextCollapse/index.js')
+        require('@internal/build-stubs/services/contextCollapse/index.js') as typeof import('@internal/build-stubs/services/contextCollapse/index.js')
       ).initContextCollapse()
       /* eslint-enable @typescript-eslint/no-require-imports */
     }

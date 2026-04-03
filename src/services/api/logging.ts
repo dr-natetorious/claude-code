@@ -4,6 +4,7 @@ import type {
   BetaStopReason,
   BetaUsage as Usage,
 } from '@anthropic-ai/sdk/resources/beta/messages/messages.mjs'
+import { MACRO } from '../../constants/buildMacro.js'
 import {
   addToTotalDurationState,
   consumePostCompaction,

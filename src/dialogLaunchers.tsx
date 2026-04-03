@@ -33,7 +33,7 @@ export async function launchSnapshotUpdateDialog(root: Root, props: {
 }): Promise<'merge' | 'keep' | 'replace'> {
   const {
     SnapshotUpdateDialog
-  } = await import('./components/agents/SnapshotUpdateDialog.js');
+  } = await import('@internal/build-stubs/components/agents/SnapshotUpdateDialog.js');
   return showSetupDialog<'merge' | 'keep' | 'replace'>(root, done => <SnapshotUpdateDialog agentType={props.agentType} scope={props.scope} snapshotTimestamp={props.snapshotTimestamp} onComplete={done} onCancel={() => done('keep')} />);
 }
 
@@ -60,7 +60,7 @@ export async function launchAssistantSessionChooser(root: Root, props: {
 }): Promise<string | null> {
   const {
     AssistantSessionChooser
-  } = await import('./assistant/AssistantSessionChooser.js');
+  } = await import('@internal/build-stubs/assistant/AssistantSessionChooser.js');
   return showSetupDialog<string | null>(root, done => <AssistantSessionChooser sessions={props.sessions} onSelect={id => done(id)} onCancel={() => done(null)} />);
 }
 
@@ -74,7 +74,7 @@ export async function launchAssistantInstallWizard(root: Root): Promise<string |
   const {
     NewInstallWizard,
     computeDefaultInstallDir
-  } = await import('./commands/assistant/assistant.js');
+  } = await import('@internal/build-stubs/commands/assistant/assistant.js');
   const defaultDir = await computeDefaultInstallDir();
   let rejectWithError: (reason: Error) => void;
   const errorPromise = new Promise<never>((_, reject) => {

@@ -3,6 +3,7 @@
  */
 
 import axios from 'axios'
+import { MACRO } from '../constants/buildMacro.js'
 import { OAUTH_BETA_HEADER } from '../constants/oauth.js'
 import {
   getAnthropicApiKey,

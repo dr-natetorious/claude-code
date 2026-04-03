@@ -1,5 +1,6 @@
 // biome-ignore-all assist/source/organizeImports: ANT-ONLY import markers must not be reordered
 import { randomUUID } from 'crypto'
+import { MACRO } from '../constants/buildMacro.js'
 import {
   createBridgeApiClient,
   BridgeFatalError,

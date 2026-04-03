@@ -44,83 +44,66 @@ import skills from './commands/skills/index.js'
 import status from './commands/status/index.js'
 import tasks from './commands/tasks/index.js'
 import teleport from './commands/teleport/index.js'
-/* eslint-disable @typescript-eslint/no-require-imports */
-const agentsPlatform =
-  process.env.USER_TYPE === 'ant'
-    ? require('./commands/agents-platform/index.js').default
-    : null
-/* eslint-enable @typescript-eslint/no-require-imports */
+import { safeConditional } from './utils/safeModuleLoader.js'
+import { feature } from 'bun:bundle'
+// Dead code elimination: conditional imports for optional commands
+const agentsPlatform = process.env.USER_TYPE === 'ant'
+  ? safeConditional(true, './commands/agents-platform/index.js', 'default')
+  : null
 import securityReview from './commands/security-review.js'
 import bughunter from './commands/bughunter/index.js'
 import terminalSetup from './commands/terminalSetup/index.js'
 import usage from './commands/usage/index.js'
 import theme from './commands/theme/index.js'
 import vim from './commands/vim/index.js'
-import { feature } from 'bun:bundle'
-// Dead code elimination: conditional imports
-/* eslint-disable @typescript-eslint/no-require-imports */
-const proactive =
-  feature('PROACTIVE') || feature('KAIROS')
-    ? require('./commands/proactive.js').default
-    : null
-const briefCommand =
-  feature('KAIROS') || feature('KAIROS_BRIEF')
-    ? require('./commands/brief.js').default
-    : null
+const proactive = feature('PROACTIVE') || feature('KAIROS')
+  ? safeConditional(true, './commands/proactive.js', 'default')
+  : null
+const briefCommand = feature('KAIROS') || feature('KAIROS_BRIEF')
+  ? safeConditional(true, './commands/brief.js', 'default')
+  : null
 const assistantCommand = feature('KAIROS')
-  ? require('./commands/assistant/index.js').default
+  ? safeConditional(true, './commands/assistant/index.js', 'default')
   : null
 const bridge = feature('BRIDGE_MODE')
-  ? require('./commands/bridge/index.js').default
+  ? safeConditional(true, './commands/bridge/index.js', 'default')
   : null
-const remoteControlServerCommand =
-  feature('DAEMON') && feature('BRIDGE_MODE')
-    ? require('./commands/remoteControlServer/index.js').default
-    : null
+const remoteControlServerCommand = feature('DAEMON') && feature('BRIDGE_MODE')
+  ? safeConditional(true, './commands/remoteControlServer/index.js', 'default')
+  : null
 const voiceCommand = feature('VOICE_MODE')
-  ? require('./commands/voice/index.js').default
+  ? safeConditional(true, './commands/voice/index.js', 'default')
   : null
 const forceSnip = feature('HISTORY_SNIP')
-  ? require('./commands/force-snip.js').default
+  ? safeConditional(true, './commands/force-snip.js', 'default')
   : null
 const workflowsCmd = feature('WORKFLOW_SCRIPTS')
-  ? (
-      require('./commands/workflows/index.js') as typeof import('./commands/workflows/index.js')
-    ).default
+  ? safeConditional(true, './commands/workflows/index.js', 'default')
   : null
 const webCmd = feature('CCR_REMOTE_SETUP')
-  ? (
-      require('./commands/remote-setup/index.js') as typeof import('./commands/remote-setup/index.js')
-    ).default
+  ? safeConditional(true, './commands/remote-setup/index.js', 'default')
   : null
 const clearSkillIndexCache = feature('EXPERIMENTAL_SKILL_SEARCH')
-  ? (
-      require('./services/skillSearch/localSearch.js') as typeof import('./services/skillSearch/localSearch.js')
-    ).clearSkillIndexCache
+  ? safeConditional(true, './services/skillSearch/localSearch.js', 'clearSkillIndexCache')
   : null
 const subscribePr = feature('KAIROS_GITHUB_WEBHOOKS')
-  ? require('./commands/subscribe-pr.js').default
+  ? safeConditional(true, './commands/subscribe-pr.js', 'default')
   : null
 const ultraplan = feature('ULTRAPLAN')
-  ? require('./commands/ultraplan.js').default
+  ? safeConditional(true, './commands/ultraplan.js', 'default')
   : null
-const torch = feature('TORCH') ? require('./commands/torch.js').default : null
+const torch = feature('TORCH')
+  ? safeConditional(true, './commands/torch.js', 'default')
+  : null
 const peersCmd = feature('UDS_INBOX')
-  ? (
-      require('./commands/peers/index.js') as typeof import('./commands/peers/index.js')
-    ).default
+  ? safeConditional(true, './commands/peers/index.js', 'default')
   : null
 const forkCmd = feature('FORK_SUBAGENT')
-  ? (
-      require('./commands/fork/index.js') as typeof import('./commands/fork/index.js')
-    ).default
+  ? safeConditional(true, './commands/fork/index.js', 'default')
   : null
 const buddy = feature('BUDDY')
-  ? (
-      require('./commands/buddy/index.js') as typeof import('./commands/buddy/index.js')
-    ).default
+  ? safeConditional(true, './commands/buddy/index.js', 'default')
   : null
-/* eslint-enable @typescript-eslint/no-require-imports */
 import thinkback from './commands/thinkback/index.js'
 import thinkbackPlay from './commands/thinkback-play/index.js'
 import permissions from './commands/permissions/index.js'

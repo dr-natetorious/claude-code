@@ -12,6 +12,7 @@ import {
   saveGlobalConfig,
 } from 'src/utils/config.js'
 import { logForDebugging } from 'src/utils/debug.js'
+import { MACRO } from 'src/constants/buildMacro.js'
 import { getDoctorDiagnostic } from 'src/utils/doctorDiagnostic.js'
 import { gracefulShutdown } from 'src/utils/gracefulShutdown.js'
 import {
