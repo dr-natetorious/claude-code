@@ -13,10 +13,16 @@ import { refreshGrowthBookAfterAuthChange } from '../../services/analytics/growt
 import { refreshPolicyLimits } from '../../services/policyLimits/index.js';
 import { refreshRemoteManagedSettings } from '../../services/remoteManagedSettings/index.js';
 import type { LocalJSXCommandOnDone } from '../../types/command.js';
+import { isBareMode } from '../../utils/envUtils.js';
 import { stripSignatureBlocks } from '../../utils/messages.js';
 import { checkAndDisableAutoModeIfNeeded, checkAndDisableBypassPermissionsIfNeeded, resetAutoModeGateCheck, resetBypassPermissionsCheck } from '../../utils/permissions/bypassPermissionsKillswitch.js';
 import { resetUserCache } from '../../utils/user.js';
 export async function call(onDone: LocalJSXCommandOnDone, context: LocalJSXCommandContext): Promise<React.ReactNode> {
+  if (isBareMode()) {
+    onDone('Login is unavailable in --bare mode. Restart without --bare (or unset CLAUDE_CODE_SIMPLE), then run /login again.');
+    return null;
+  }
+
   return <Login onDone={async success => {
     context.onChangeAPIKey();
     // Signature-bearing blocks (thinking, connector_text) are bound to the API key —

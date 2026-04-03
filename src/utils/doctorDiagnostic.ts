@@ -40,6 +40,7 @@ import {
   findValidClaudeAlias,
   getShellConfigPaths,
 } from './shellConfig.js'
+import { MACRO } from '../constants/buildMacro.js'
 import { jsonParse } from './slowOperations.js'
 import { which } from './which.js'
 

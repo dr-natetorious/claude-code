@@ -10,6 +10,7 @@ import {
 } from '../../services/analytics/index.js'
 import { getSSLErrorHint } from '../../services/api/errorUtils.js'
 import { fetchAndStoreClaudeCodeFirstTokenDate } from '../../services/api/firstTokenDate.js'
+import { verifyApiKey } from '../../services/api/claude.js'
 import {
   createAndStoreApiKey,
   fetchAndStoreUserRoles,
@@ -86,6 +87,16 @@ export async function installOAuthTokens(tokens: OAuthTokens): Promise<void> {
     })
   }
 
+  // Do not continue as authenticated if tokens were not actually persisted.
+  // Otherwise users can see a false "Login successful" and immediately fail
+  // auth checks on the next turn.
+  if (!storageResult.success) {
+    throw new Error(
+      storageResult.warning ??
+        'Failed to persist OAuth tokens. Please check filesystem/keychain permissions and try /login again.',
+    )
+  }
+
   // Roles and first-token-date may fail for limited-scope tokens (e.g.
   // inference-only from setup-token). They're not required for core auth.
   await fetchAndStoreUserRoles(tokens.accessToken).catch(err =>
@@ -104,9 +115,44 @@ export async function installOAuthTokens(tokens: OAuthTokens): Promise<void> {
         'Unable to create API key. The server accepted the request but did not return a key.',
       )
     }
+
+    const isValidApiKey = await verifyApiKey(apiKey, false)
+    if (!isValidApiKey) {
+      throw new Error(
+        'Created API key was rejected by the API. Please run /login again.',
+      )
+    }
   }
 
   await clearAuthRelatedCaches()
+
+  // Guard against "login succeeded but still not logged in" loops caused by
+  // external auth sources taking precedence over /login-managed credentials.
+  const inManagedOAuthContext =
+    process.env.CLAUDE_CODE_REMOTE === 'true' ||
+    process.env.CLAUDE_CODE_ENTRYPOINT === 'claude-desktop'
+
+  if (process.env.ANTHROPIC_AUTH_TOKEN && !inManagedOAuthContext) {
+    throw new Error(
+      'Login completed, but ANTHROPIC_AUTH_TOKEN is set and overrides /login credentials. Unset ANTHROPIC_AUTH_TOKEN and try again.',
+    )
+  }
+
+  const { source: apiKeySourceAfterLogin } = getAnthropicApiKeyWithSource({
+    skipRetrievingKeyFromApiKeyHelper: true,
+  })
+
+  if (apiKeySourceAfterLogin === 'ANTHROPIC_API_KEY' && !inManagedOAuthContext) {
+    throw new Error(
+      'Login completed, but ANTHROPIC_API_KEY is set and overrides /login credentials. Unset ANTHROPIC_API_KEY and try again.',
+    )
+  }
+
+  if (apiKeySourceAfterLogin === 'apiKeyHelper' && !inManagedOAuthContext) {
+    throw new Error(
+      'Login completed, but apiKeyHelper is configured and overrides /login credentials. Remove apiKeyHelper from settings or run with --settings that does not set it.',
+    )
+  }
 }
 
 export async function authLogin({

@@ -2,6 +2,7 @@ import axios from 'axios';
 import { readFile, stat } from 'fs/promises';
 import * as React from 'react';
 import { useCallback, useEffect, useState } from 'react';
+import { MACRO } from '../constants/buildMacro.js';
 import { getLastAPIRequest } from 'src/bootstrap/state.js';
 import { logEventTo1P } from 'src/services/analytics/firstPartyEventLogger.js';
 import { type AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS, logEvent } from 'src/services/analytics/index.js';

@@ -1,4 +1,5 @@
 import { feature } from 'bun:bundle';
+import { MACRO } from '../constants/buildMacro.js';
 
 // Bugfix for corepack auto-pinning, which adds yarnpkg to peoples' package.jsons
 // eslint-disable-next-line custom-rules/no-top-level-side-effects
@@ -42,10 +43,13 @@ async function main(): Promise<void> {
   }
 
   // For all other paths, load the startup profiler
+  console.error('[CLI] Loading startup profiler...');
   const {
     profileCheckpoint
   } = await import('../utils/startupProfiler.js');
+  console.error('[CLI] Profiler loaded, marking checkpoint...');
   profileCheckpoint('cli_entry');
+  console.error('[CLI] About to load main.js module...');
 
   // Fast-path for --dump-system-prompt: output the rendered system prompt and exit.
   // Used by prompt sensitivity evals to extract the system prompt at a specific commit.
@@ -288,13 +292,17 @@ async function main(): Promise<void> {
   const {
     startCapturingEarlyInput
   } = await import('../utils/earlyInput.js');
+  console.error('[CLI] About to call startCapturingEarlyInput...');
   startCapturingEarlyInput();
+  console.error('[CLI] Called startCapturingEarlyInput, about to import main.js...');
   profileCheckpoint('cli_before_main_import');
   const {
     main: cliMain
   } = await import('../main.js');
+  console.error('[CLI] Successfully imported main.js, about to call cliMain()...');
   profileCheckpoint('cli_after_main_import');
   await cliMain();
+  console.error('[CLI] cliMain() completed successfully');
   profileCheckpoint('cli_after_main_complete');
 }
 

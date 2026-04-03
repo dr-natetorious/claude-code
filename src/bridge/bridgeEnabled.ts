@@ -12,6 +12,7 @@ import {
 import * as authModule from '../utils/auth.js'
 import { isEnvTruthy } from '../utils/envUtils.js'
 import { lt } from '../utils/semver.js'
+import { MACRO } from '../constants/buildMacro.js'
 
 /**
  * Runtime check for bridge mode entitlement.

@@ -10,6 +10,7 @@ import {
 } from '@opentelemetry/semantic-conventions'
 import { randomUUID } from 'crypto'
 import { isEqual } from 'lodash-es'
+import { MACRO } from '../../constants/buildMacro.js'
 import { getOrCreateUserID } from '../../utils/config.js'
 import { logForDebugging } from '../../utils/debug.js'
 import { logError } from '../../utils/log.js'

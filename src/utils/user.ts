@@ -6,6 +6,7 @@ import {
   getRateLimitTier,
   getSubscriptionType,
 } from './auth.js'
+import { MACRO } from '../constants/buildMacro.js'
 import { getGlobalConfig, getOrCreateUserID } from './config.js'
 import { getCwd } from './cwd.js'
 import { type env, getHostPlatformForAnalytics } from './env.js'

@@ -43,6 +43,7 @@ import {
   checkWSLDistroMatch,
   WindowsToWSLConverter,
 } from './idePathConversion.js'
+import { MACRO } from '../constants/buildMacro.js'
 import { sleep } from './sleep.js'
 import { jsonParse } from './slowOperations.js'
 

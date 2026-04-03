@@ -1,0 +1,1 @@
+export function restoreFromEntries(entries?: unknown[], snapshot?: unknown): void

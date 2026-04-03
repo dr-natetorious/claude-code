@@ -20,6 +20,7 @@ import { getFsImplementation } from '../fsOperations.js'
 import { logError } from '../log.js'
 import { sleep } from '../sleep.js'
 import { jsonStringify, writeFileSync_DEPRECATED } from '../slowOperations.js'
+import { MACRO } from '../../constants/buildMacro.js'
 import { getBinaryName, getPlatform } from './installer.js'
 
 const GCS_BUCKET_URL =
